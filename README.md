@@ -1,441 +1,626 @@
-# AI Resume Tailor
+<div align="center">
 
-A full-stack web application designed to tailor resumes for specific job descriptions using LLMs, preserving 100% truthfulness of the candidate's actual experience while identifying missing keywords separately.
+# 📄 AI RESUME TAILOR
+
+### *Tailor Smarter. Stay Truthful. Land Your Next Opportunity.*
+
+A full-stack web application designed to tailor resumes to specific job descriptions using Google Gemini LLMs. Realigns documented candidate experience to highlight relevance without fabricating skills, hallucinating employment history, or compromising candidate integrity.
+
+<p align="center">
+  <a href="https://github.com/weber404/AI-Resume-Customiser-Web-App">
+    <img src="https://img.shields.io/github/last-commit/weber404/AI-Resume-Customiser-Web-App?style=for-the-badge&logo=github&color=4F6BED&logoColor=white" alt="Last Commit" />
+  </a>
+  <a href="https://ai-resume-customiser-vishwasweb.vercel.app/">
+    <img src="https://img.shields.io/badge/Frontend-Live_on_Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel Live Demo" />
+  </a>
+  <a href="https://ai-resume-customiser-web-app-production.up.railway.app/">
+    <img src="https://img.shields.io/badge/Backend-Live_on_Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=white" alt="Railway Backend" />
+  </a>
+  <a href="https://ai-resume-customiser-web-app-production.up.railway.app/docs">
+    <img src="https://img.shields.io/badge/API_Docs-Swagger_UI-009688?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger UI" />
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-0.110+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/Pydantic-v2-E92063?style=for-the-badge&logo=pydantic&logoColor=white" alt="Pydantic" />
+  <img src="https://img.shields.io/badge/Next.js-16_App_Router-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Google_Gemini-AI_Tailoring-8E75C2?style=for-the-badge&logo=googlegemini&logoColor=white" alt="Google Gemini" />
+  <img src="https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+</p>
+
+<p align="center">
+  <a href="https://ai-resume-customiser-vishwasweb.vercel.app/"><strong>🌐 Live Application</strong></a> •
+  <a href="https://ai-resume-customiser-web-app-production.up.railway.app/docs"><strong>📖 Interactive API Docs</strong></a> •
+  <a href="https://github.com/weber404/AI-Resume-Customiser-Web-App"><strong>💻 GitHub Repository</strong></a> •
+  <a href="./DEPLOYMENT.md"><strong>🚀 Deployment Guide</strong></a>
+</p>
+
+</div>
 
 ---
 
-## 1. Project Structure
+## 📑 Table of Contents
 
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Screenshots / Product Preview](#screenshots--product-preview)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [How It Works](#how-it-works)
+- [API Reference](#api-reference)
+- [Testing and Quality Assurance](#testing-and-quality-assurance)
+- [Deployment](#deployment)
+- [Privacy and Security](#privacy-and-security)
+- [Limitations](#limitations)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
+
+---
+
+<a id="overview"></a>
+## 🚀 Overview
+
+**AI Resume Tailor** is a modern, privacy-conscious full-stack platform designed to help job seekers tailor resumes for specific job descriptions **without inventing false claims**.
+
+Automated resume tools frequently hallucinate synthetic skills, fabricate unverified metrics, or insert deceptive keywords into candidate profiles. AI Resume Tailor enforces a strict, transparent contract:
+
+> **Core Principle: Improve Relevance Without Fabricating Candidate Experience.**  
+> The application realigns, restructures, and emphasizes documented past achievements that match the target job description, while segregating missing target keywords into an actionable, advisory checklist.
+
+### Core Workflow Capabilities:
+1. **Document Ingestion:** Accepts `.pdf` and `.docx` resumes (up to 5 MB), extracting normalized selectable text via PyMuPDF and python-docx.
+2. **Context-Aware Tailoring:** Combines source resume text with the target job description (up to 25,000 characters) to identify semantic overlaps and gaps.
+3. **Structured Resume Synthesis:** Prompts Google Gemini with strict schema enforcement to generate a single-column, ATS-aligned resume data model.
+4. **Keyword Gap Segregation:** Separates unverified skills into an explicit "Missing Keywords" advisory panel with context on why the employer seeks them.
+5. **In-Browser Section Editing:** Allows candidates to review, tweak, add, or delete individual bullet points, skill categories, and project summaries before exporting.
+6. **In-Memory Binary Export:** Exports publication-ready resumes in both ATS-compliant PDF (ReportLab) and Word DOCX formats directly from RAM.
+
+---
+
+<a id="key-features"></a>
+## ✨ Key Features
+
+- **🛡️ Truthfulness-First AI Prompting:** System instructions strictly forbid the LLM from inventing employers, modifying dates, or adding technologies absent from the source document.
+- **📄 Dual-Format Ingestion & Validation:** Validates file signatures (magic bytes) to prevent corrupted files, empty payloads, or renamed extensions from entering the pipeline.
+- **🔍 Scanned Document Guard:** Distinguishes text-selectable PDFs from scanned, image-only documents and provides clear, immediate user guidance.
+- **🏷️ Segregated Missing Keyword Analysis:** Unmatched requirements are extracted separately with actionable notes, preventing unverified claims from infiltrating the resume body.
+- **✏️ Interactive Section-Wise Editing:** Modal editors allow real-time changes to Contact, Summary, Experience, Skills, Projects, Education, and Certifications.
+- **🎯 Content Alignment Score:** Displays an approximate textual match percentage indicating keyword alignment (explicitly disclaiming hiring probability).
+- **🖨️ Dual ATS Export Engine:**
+  - **PDF Export:** Single-column layout rendered via ReportLab with orphan-heading suppression (`keepWithNext=True`) and selectable typography.
+  - **DOCX Export:** Formatted OpenXML document styled with native bullet lists and standardized 0.5-inch margins.
+- **🔒 Ephemeral Processing:** Documents and job descriptions are processed in memory and are not persisted to application databases or local disk storage.
+- **⚡ Defense-in-Depth Security:** Enforces strict HTTP security headers (`nosniff`, `DENY`, `strict-origin`), sliding-window rate limiting, and input size constraints.
+
+---
+
+<a id="screenshots--product-preview"></a>
+## 📸 Screenshots / Product Preview
+
+The application features an Apple-inspired light aesthetic designed for clarity, readability, and responsive interaction:
+
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│  AI Resume Tailor                                  [ Service Ready ● ] │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│   [ 1. Upload Resume ]                    [ 2. Target Job Description ]│
+│   ┌───────────────────────────┐           ┌──────────────────────────┐ │
+│   │ 📄 Click to choose file   │           │ Paste requirements,      │ │
+│   │    or drag & drop         │           │ responsibilities, stack  │ │
+│   │    (PDF, DOCX up to 5 MB) │           │ 0 / 25,000 characters    │ │
+│   └───────────────────────────┘           └──────────────────────────┘ │
+│                                                                        │
+│                       [ 🪄 Tailor My Resume ]                          │
+│                                                                        │
+├────────────────────────────────────────────────────────────────────────┤
+│   [ Tailored Resume Preview ]             [ Missing Keywords Panel ]   │
+│   • Alex Morgan (Staff Backend Eng)       • Kubernetes (Orchestration) │
+│   • 94% Alignment Score                   • AWS Lambda (Serverless)    │
+│   • [✏️ Edit Sections]                     (Review before adding)       │
+│                                                                        │
+│   [ 📥 Download PDF ]                     [ 📥 Download Word (.docx) ] │
+└────────────────────────────────────────────────────────────────────────┘
 ```
-Resume Customiser Web App/
-├── backend/                  # Python FastAPI Backend
+
+> **Live Preview:** Experience the complete interactive workflow directly on the live production deployment:  
+> 👉 [https://ai-resume-customiser-vishwasweb.vercel.app/tailor](https://ai-resume-customiser-vishwasweb.vercel.app/tailor)  
+> *(To add graphical screenshots, place image files in a `docs/screenshots/` folder and link them here).*
+
+---
+
+<a id="tech-stack"></a>
+## 🧰 Tech Stack
+
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend Framework** | [Next.js](https://nextjs.org/) 16.4.0 (App Router) | React server/client architecture, Turbopack, standalone compilation |
+| **UI Library** | [React](https://react.dev/) 19.3.0 | Modern component hierarchy, stateful hooks, modal section editing |
+| **Type Safety** | [TypeScript](https://www.typescriptlang.org/) ^5.0 | Strict compilation, shared interfaces, type-safe API communication |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) ^4.0 | Apple-inspired minimal light theme, custom responsive grid, fluid spacing |
+| **Backend Framework** | [FastAPI](https://fastapi.tiangolo.com/) >=0.110.0 | High-performance asynchronous REST API, OpenAPI docs, dependency injection |
+| **Data Validation** | [Pydantic v2](https://docs.pydantic.dev/) >=2.7.0 & pydantic-settings >=2.2.0 | Strict request/response schema validation and environment management |
+| **ASGI Server** | [Uvicorn](https://www.uvicorn.org/) >=0.29.0 | Production ASGI server with async worker process management |
+| **AI Integration** | [Google Gen AI SDK](https://github.com/google-gemini/google-genai) >=0.1.1 | Official Python client communicating with Google Gemini models |
+| **PDF Extraction** | [PyMuPDF](https://pymupdf.readthedocs.io/) (fitz) >=1.23.0 | Document parsing and selectable text extraction |
+| **DOCX Processing** | [python-docx](https://python-docx.readthedocs.io/) >=1.1.0 | OpenXML document parsing and structured DOCX export |
+| **PDF Generation** | [ReportLab](https://www.reportlab.com/) >=4.0.0 | Programmatic ATS-compliant single-column PDF rendering from memory |
+| **Testing** | [pytest](https://pytest.org/) >=8.0.0 & Node.js Native Runner | Backend async pytest suite and frontend TypeScript test runner |
+| **Containerization** | [Docker](https://www.docker.com/) | Multi-stage, non-root, unprivileged container images |
+| **Cloud Hosting** | [Vercel](https://vercel.com/) & [Railway](https://railway.app/) | Frontend global edge deployment & containerized backend execution |
+
+### AI Model Details
+- **Provider:** Google Gemini API via official `google-genai` Python SDK
+- **Default Configured Model:** `gemini-3.5-flash-lite` (defined in [`backend/app/core/config.py`](./backend/app/core/config.py))
+- **Configurable Override:** Set `GEMINI_MODEL` in backend environment (e.g. `gemini-2.5-flash`, `gemini-1.5-pro`)
+- **Sampling Temperature:** `0.1` (restrained temperature ensures deterministic, factual output adhering strictly to source data)
+
+---
+
+<a id="architecture"></a>
+## 🏗️ Architecture
+
+The application implements a decoupled, event-driven client-server architecture with in-memory document processing:
+
+```mermaid
+flowchart TD
+    subgraph Client["Client Tier (Next.js 16 + React 19)"]
+        A["User Uploads Resume (PDF/DOCX &le; 5 MB)"] --> B["Pre-flight Validation (Extension & Size)"]
+        B --> C["Paste Target Job Description (&le; 25,000 Chars)"]
+        C --> D["Submit Ingestion Request (POST /api/resume/extract)"]
+    end
+
+    subgraph Backend["Backend API Tier (FastAPI + Python 3.11+)"]
+        D --> E["Upload Ingestion & Magic Byte Validation"]
+        E --> F{"File Format"}
+        F -->|PDF| G["PyMuPDF In-Memory Parser"]
+        F -->|DOCX| H["python-docx In-Memory Parser"]
+        G --> I["Scanned PDF Guard (&ge; 30 Selectable Chars)"]
+        H --> I
+        I -->|Return Extracted Text| J["Submit Tailoring Request (POST /api/resume/tailor)"]
+        J --> K["Sliding Window IP Rate Limiter"]
+        K --> L["Strict System Prompt Isolation Engine"]
+    end
+
+    subgraph AI["External AI Provider"]
+        L --> M["Google Gen AI Python SDK (Gemini API)"]
+        M --> N["Structured JSON Generation (Temp: 0.1)"]
+    end
+
+    subgraph PostProcessing["Validation & Document Generation"]
+        N --> O["Pydantic TailoredResumeResponse Validation"]
+        O --> P["Segregate Resume Content & Missing Keywords"]
+        P --> Q["Interactive Preview & Section Editors"]
+        Q -->|Export PDF| R["ReportLab PDF Generator (POST /api/resume/export/pdf)"]
+        Q -->|Export DOCX| S["python-docx Generator (POST /api/resume/export/docx)"]
+        R --> T["In-Memory Download: Single-Column ATS PDF"]
+        S --> U["In-Memory Download: ATS-Formatted Word DOCX"]
+    end
+```
+
+---
+
+<a id="project-structure"></a>
+## 📂 Project Structure
+
+```text
+AI-Resume-Customiser-Web-App/
+├── backend/                             # Python FastAPI Backend
 │   ├── app/
-│   │   ├── __init__.py
-│   │   ├── main.py           # FastAPI entrypoint with CORS & error handlers
 │   │   ├── api/
-│   │   │   ├── __init__.py
 │   │   │   └── routes/
-│   │   │       ├── __init__.py
-│   │   │       ├── health.py # GET /api/health route
-│   │   │       └── resume.py # Ingestion, tailoring, & export routes
+│   │   │       ├── health.py            # /api/health, /api/health/live, /api/health/ready
+│   │   │       └── resume.py            # /extract, /tailor, /export/pdf, /export/docx
 │   │   ├── core/
-│   │   │   ├── __init__.py
-│   │   │   ├── config.py     # Pydantic Settings & environment config
-│   │   │   └── exceptions.py # Structured AppException class
+│   │   │   ├── config.py                # Pydantic BaseSettings & env parsing
+│   │   │   ├── exceptions.py            # Structured AppException & error codes
+│   │   │   └── rate_limiter.py          # In-memory sliding window rate limiter
 │   │   ├── schemas/
-│   │   │   ├── __init__.py
-│   │   │   ├── common.py     # ErrorResponse, ErrorDetail, HealthResponse
-│   │   │   ├── resume.py     # ResumeExtractionResponse, ResumeData contracts
-│   │   │   └── tailor.py     # Tailoring request contract
-│   │   └── services/
-│   │       ├── __init__.py
-│   │       ├── parser/       # Upload verification & document text extraction
-│   │       ├── llm/          # Google Gemini structured output client
-│   │       └── exporter/     # In-memory document generation
-│   │           ├── __init__.py
-│   │           ├── filename.py     # Safe ASCII filename sanitizer
-│   │           ├── pdf_exporter.py # ReportLab ATS-compliant PDF generator
-│   │           └── docx_exporter.py# python-docx ATS-compliant DOCX generator
-│   ├── tests/
-│   │   ├── __init__.py
-│   │   ├── test_config.py         # Configuration & environment unit tests
-│   │   ├── test_health.py         # Health endpoint & CORS unit tests
-│   │   ├── test_resume_extract.py # File ingestion & extraction unit tests
-│   │   ├── test_schemas.py        # Pydantic validation & contract tests
-│   │   ├── test_tailor.py         # AI tailoring service & prompt isolation tests
-│   │   └── test_export.py         # PDF & DOCX export verification tests
-│   ├── .env.example          # Environment variable template
-│   ├── .env                  # Local development environment (git-ignored)
-│   ├── .gitignore
-│   ├── pyproject.toml        # Backend project metadata & test config
-│   └── requirements.txt      # Pinned dependency requirements
+│   │   │   ├── common.py                # ErrorResponse, ErrorDetail, HealthResponse
+│   │   │   ├── resume.py                # ResumeData, TailoredResumeResponse schemas
+│   │   │   └── tailor.py                # TailorResumeRequest input contract
+│   │   ├── services/
+│   │   │   ├── exporter/                # ReportLab & python-docx binary generators
+│   │   │   ├── llm/                     # Google Gen AI client & prompt templates
+│   │   │   ├── parser/                  # PDF & DOCX text extraction services
+│   │   │   └── tailoring.py             # Orchestration service for tailoring logic
+│   │   └── main.py                      # FastAPI app instance, CORS & ASGI security headers
+│   ├── tests/                           # Pytest test suite (64 automated tests)
+│   │   ├── test_config.py               # Settings & environment variable tests
+│   │   ├── test_export.py               # In-memory PDF & DOCX generation tests
+│   │   ├── test_health.py               # Health & liveness probe tests
+│   │   ├── test_production_security.py  # Rate limiting & security header tests
+│   │   ├── test_resume_extract.py       # File validation & extraction tests
+│   │   ├── test_schemas.py              # Pydantic contract & boundary tests
+│   │   └── test_tailor.py               # AI client integration & prompt tests
+│   ├── .dockerignore                    # Backend Docker ignore definitions
+│   ├── .env.example                     # Backend environment template
+│   ├── .gitignore                       # Backend Git ignore rules
+│   ├── Dockerfile                       # Multi-stage production Python container
+│   ├── pyproject.toml                   # Project metadata & pytest configuration
+│   └── requirements.txt                 # Pinned Python package dependencies
 │
-├── frontend/                 # Next.js 16 App Router Frontend
+├── frontend/                            # Next.js 16 App Router Frontend
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── globals.css   # Tailwind CSS styles
-│   │   │   ├── layout.tsx    # App root layout & SEO metadata
-│   │   │   └── page.tsx      # Main application view with end-to-end tailoring workflow
+│   │   │   ├── globals.css              # Design tokens & responsive site-container
+│   │   │   ├── layout.tsx               # Root layout, metadata & custom favicon
+│   │   │   ├── page.tsx                 # Landing page (hero, features, FAQ, CTA)
+│   │   │   ├── icon.svg                 # Brand RT favicon
+│   │   │   └── tailor/
+│   │   │       └── page.tsx             # Interactive resume workspace & workflow
 │   │   ├── components/
-│   │   │   ├── HealthCheck.tsx # Live API connectivity status component
-│   │   │   └── workflow/       # Tailoring workflow UI components
-│   │   │       ├── FileUploadZone.tsx        # Drag-and-drop & native file upload
-│   │   │       ├── JobDescriptionInput.tsx   # JD textarea with live counter
-│   │   │       ├── TailoredResumeView.tsx    # Full tailored ATS resume presentation
-│   │   │       ├── MissingKeywordsPanel.tsx  # Segregated missing keywords with advisory
-│   │   │       └── ErrorAlert.tsx            # Contextual error banner with code badge
+│   │   │   ├── HealthCheck.tsx          # Real-time backend connectivity check
+│   │   │   └── workflow/                # Tailoring UI & modular section editors
+│   │   │       ├── FileUploadZone.tsx   # Drag-and-drop file upload component
+│   │   │       ├── JobDescriptionInput.tsx # JD textarea with deterministic counter
+│   │   │       ├── TailoredResumeView.tsx # Resume preview with export & edit buttons
+│   │   │       ├── MissingKeywordsPanel.tsx # Segregated keyword gap checklist
+│   │   │       ├── ErrorAlert.tsx       # Standardized user error banner
+│   │   │       └── editors/             # In-place modal section editors
 │   │   ├── lib/
-│   │   │   ├── api.ts        # Type-safe API client utility (extract & tailor)
-│   │   │   └── validation.ts # Client-side file & input validation rules
+│   │   │   ├── api.ts                   # Type-safe Fetch API client with timeouts
+│   │   │   └── validation.ts            # Client-side validation & size helpers
 │   │   └── types/
-│   │       ├── common.ts     # Error and health response TypeScript contracts
-│   │       ├── resume.ts     # ResumeExtractionResponse & structured resume contracts
-│   │       └── index.ts      # Type exports
-│   ├── tests/
-│   │   └── workflow.test.ts  # Node test runner suite for validation & flow
-│   ├── .env.example          # Frontend environment template
-│   ├── .env.local            # Frontend local environment (git-ignored)
-│   ├── .gitignore
-│   ├── package.json          # Frontend dependencies & scripts
-│   ├── tsconfig.json         # Strict TypeScript compiler options & aliases
-│   └── eslint.config.mjs     # ESLint configuration
+│   │       ├── common.ts                # API error & health contracts
+│   │       ├── resume.ts                # Tailored resume TypeScript models
+│   │       └── index.ts                 # Centralized type exports
+│   ├── tests/                           # Frontend Node test runner suite (26 tests)
+│   │   ├── editing.test.ts              # Section editing & state update tests
+│   │   └── workflow.test.ts             # Validation, API sequence & export tests
+│   ├── .dockerignore                    # Frontend Docker ignore definitions
+│   ├── .env.example                     # Frontend environment template
+│   ├── .gitignore                       # Frontend Git ignore rules
+│   ├── Dockerfile                       # Multi-stage production Node container
+│   ├── eslint.config.mjs                # ESLint 9 configuration
+│   ├── next.config.ts                   # Next.js 16 Turbopack configuration
+│   ├── package.json                     # NPM dependencies & scripts
+│   ├── package-lock.json                # Pinned dependency lockfile
+│   └── tsconfig.json                    # Strict TypeScript configuration
 │
-├── .gitignore                # Global workspace gitignore
-└── README.md                 # Project documentation
+├── .gitignore                           # Workspace root Git ignore
+├── DEPLOYMENT.md                        # Production deployment guide
+├── docker-compose.yml                   # Container orchestration config
+└── README.md                            # Project documentation
 ```
 
 ---
 
-## 2. Prerequisites
+<a id="getting-started"></a>
+## 🚀 Getting Started
 
-* **Operating System:** macOS (Apple Silicon or Intel)
-* **Python:** 3.11+ (Python 3.14 verified)
-* **Node.js:** v20+ (Node v26 verified)
-* **npm:** 10+ (npm 11 verified)
+Follow these instructions to run both tiers of the application locally:
 
----
+### 1. Prerequisites
+- **Git:** 2.30+
+- **Python:** 3.11+ (Python 3.11 to 3.14 verified)
+- **Node.js:** 20.x or 22.x LTS (Node 20+ verified)
+- **npm:** 10.x+
+- **Google Gemini API Key:** [Get an API Key from Google AI Studio](https://aistudio.google.com/app/apikey)
 
-## 3. Environment Configuration
-
-### Backend (`backend/.env`)
-Copy `backend/.env.example` to `backend/.env`:
+### 2. Clone the Repository
 ```bash
-cp backend/.env.example backend/.env
+git clone https://github.com/weber404/AI-Resume-Customiser-Web-App.git
+cd AI-Resume-Customiser-Web-App
 ```
-Key configuration values:
-- `ENVIRONMENT`: Set to `development` or `production`.
-- `DEBUG`: Set to `true` for development debugging.
-- `PORT`: Default backend port is `8000`.
-- `FRONTEND_ORIGIN`: Permitted CORS origin, default `http://localhost:3000`.
-- `MAX_UPLOAD_SIZE_BYTES`: Max file upload limit, default `5242880` (5 MB).
-- `MIN_EXTRACTED_TEXT_CHARS`: Conservative minimum non-whitespace text threshold for scanned document detection (default `50`).
-- `GEMINI_API_KEY`: *(Optional for Phases 1 & 2; required in Phase 3+)* Google Gemini API key.
-- `GEMINI_MODEL`: Default LLM model name (e.g. `gemini-3.8-flash`).
 
-### Frontend (`frontend/.env.local`)
-Copy `frontend/.env.example` to `frontend/.env.local`:
+### 3. Backend Setup & Startup
+Open a terminal in the project root:
+
 ```bash
-cp frontend/.env.example frontend/.env.local
+# Navigate to backend directory
+cd backend
+
+# Create virtual environment
+python3 -m venv .venv
+
+# Activate virtual environment
+# On macOS/Linux:
+source .venv/bin/activate
+# On Windows (Command Prompt / PowerShell):
+# .venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp .env.example .env
+# Edit .env and paste your GEMINI_API_KEY
+
+# Start backend server
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
-Key configuration values:
-- `NEXT_PUBLIC_API_URL`: Backend base URL, default `http://localhost:8000`.
+
+Verify backend health at: [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health)  
+Interactive API Swagger Docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+### 4. Frontend Setup & Startup
+Open a second terminal window in the project root:
+
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install Node dependencies
+npm install
+
+# Configure environment
+cp .env.example .env.local
+
+# Start frontend development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to start tailoring resumes.
 
 ---
 
-## 4. API Endpoints
+<a id="environment-variables"></a>
+## 🔐 Environment Variables
 
-### 1. Health Checks & Probes
-* **General Health:** `GET /api/health`
-* **Response (HTTP 200):**
-  ```json
-  {
-    "status": "ok",
-    "app_name": "AI Resume Tailor API",
-    "environment": "development",
-    "version": "0.1.0",
-    "gemini_configured": true
-  }
-  ```
-* **Liveness Probe:** `GET /api/health/live` (Returns `{"status": "alive"}`)
-* **Readiness Probe:** `GET /api/health/ready` (Returns `{"status": "ready", "environment": "...", "ai_service_configured": true}`)
+The project separates client-side configuration from secure server-side settings.
 
+### 1. Backend Environment Variables (`backend/.env`)
 
-### 2. Resume File Extraction
-* **Endpoint:** `POST /api/resume/extract`
-* **Content-Type:** `multipart/form-data`
-* **Form Field:** `file` (Binary file: `.pdf` or `.docx`)
+| Variable Name | Default Value | Required in Production | Purpose & Details |
+| :--- | :--- | :--- | :--- |
+| `ENVIRONMENT` | `development` | **Yes** | Set to `production` in live environments. |
+| `DEBUG` | `true` | **Yes** | Set to `false` in production to suppress stack traces. |
+| `PORT` | `8000` | No | Listening port for the ASGI server. |
+| `FRONTEND_ORIGIN` | `http://localhost:3000` | **Yes** | Public HTTPS origin of the frontend. |
+| `ALLOWED_ORIGINS` | `http://localhost:3000` | No | Comma-separated list of permitted CORS origins. |
+| `GEMINI_API_KEY` | `None` | **Yes (for tailoring)** | Google Gemini API key. Stored only on backend; never exposed to client. |
+| `GEMINI_MODEL` | `gemini-3.5-flash-lite` | No | Gemini model identifier for structured resume synthesis. |
+| `GEMINI_TIMEOUT_SECONDS` | `50.0` | No | Upstream timeout in seconds before returning HTTP 504 `LLM_TIMEOUT`. |
+| `MAX_UPLOAD_SIZE_BYTES` | `5242880` (5 MB) | No | Maximum file upload ceiling during multipart streaming. |
+| `MIN_EXTRACTED_TEXT_CHARS`| `30` | No | Character threshold to detect and reject image-only scanned PDFs. |
+| `RATE_LIMIT_ENABLED` | `true` | No | Enables in-memory sliding window rate limiting. |
+| `RATE_LIMIT_TAILOR_REQUESTS_PER_MINUTE` | `20` | No | Per-IP request limit per minute for the tailoring endpoint. |
 
-#### Success Response Shape (HTTP 200)
-```json
-{
-  "filename": "candidate_resume.pdf",
-  "file_type": "pdf",
-  "file_size_bytes": 104857,
-  "extracted_text": "Jane Doe\nSenior Backend Engineer\n...",
-  "character_count": 1850
-}
-```
+> [!CAUTION]
+> **Security Notice:** `GEMINI_API_KEY` must **never** be placed in `frontend/.env.local` or prefixed with `NEXT_PUBLIC_`. The Next.js client has zero direct access to LLM credentials.
 
-### 3. AI Resume Tailoring
-* **Endpoint:** `POST /api/resume/tailor`
-* **Content-Type:** `application/json`
+### 2. Frontend Environment Variables (`frontend/.env.local`)
 
-#### Request Payload
-```json
-{
-  "extracted_text": "Jane Doe\nSenior Backend Engineer at Acme Corp\nPython, Docker, SQL",
-  "job_description": "We are seeking a Senior Backend Engineer proficient in Python, FastAPI, and Kubernetes."
-}
-```
+| Variable Name | Default Value | Required in Production | Purpose & Details |
+| :--- | :--- | :--- | :--- |
+| `NEXT_PUBLIC_API_URL` | `http://localhost:8000` | **Yes** | Public HTTPS base URL of the backend API (without trailing slash). |
 
-#### Success Response Shape (HTTP 200)
-```json
-{
-  "tailored_resume": {
-    "contact": {
-      "full_name": "Jane Doe",
-      "email": "jane@example.com",
-      "phone": "+1 555-0123",
-      "location": "San Francisco, CA",
-      "linkedin_url": "https://linkedin.com/in/janedoe",
-      "portfolio_url": null,
-      "github_url": "https://github.com/janedoe"
-    },
-    "professional_summary": "Senior Backend Engineer with 7+ years of experience designing high-throughput distributed systems in Python and FastAPI.",
-    "skills": [
-      {
-        "category": "Languages & Frameworks",
-        "skills": ["Python", "FastAPI", "SQL"]
-      },
-      {
-        "category": "Cloud & Infrastructure",
-        "skills": ["Docker"]
-      }
-    ],
-    "experience": [
-      {
-        "title": "Senior Backend Engineer",
-        "company": "Acme Corp",
-        "location": "San Francisco, CA",
-        "start_date": "Jan 2021",
-        "end_date": "Present",
-        "is_current": true,
-        "bullet_points": [
-          "Engineered distributed REST APIs with FastAPI, reducing P99 latency by 40%."
-        ],
-        "technologies_used": ["Python", "FastAPI", "Docker"]
-      }
-    ],
-    "projects": [],
-    "education": [],
-    "certifications": []
-  },
-  "missing_keywords": [
-    {
-      "keyword": "Kubernetes",
-      "category": "Container Orchestration",
-      "context_or_reason": "Required for microservice deployments, but not evidenced in source resume.",
-      "suggested_action": "Add to your resume only if you possess verified experience with Kubernetes."
-    }
-  ],
-  "alignment_score": 85,
-  "summary_notes": "Realigned professional summary and experience bullet points to emphasize distributed systems and FastAPI."
-}
-```
+---
 
-### 4. Export ATS PDF Resume
-* **Endpoint:** `POST /api/resume/export/pdf`
-* **Content-Type:** `application/json`
-* **Payload:** `TailoredResumeResponse` (validated schema)
-* **Response (HTTP 200):** Binary PDF (`application/pdf`) with `Content-Disposition: attachment; filename="{Candidate_Name}_Tailored_Resume.pdf"`.
-* **Features:** Single-column ATS layout, typography built with Helvetica, headings with `keepWithNext=True` preventing orphan headers, in-memory stream without disk persistence.
+<a id="how-it-works"></a>
+## 🔄 How It Works
 
-### 5. Export ATS Word DOCX Resume
-* **Endpoint:** `POST /api/resume/export/docx`
-* **Content-Type:** `application/json`
-* **Payload:** `TailoredResumeResponse` (validated schema)
-* **Response (HTTP 200):** Binary OpenXML DOCX (`application/vnd.openxmlformats-officedocument.wordprocessingml.document`) with `Content-Disposition: attachment; filename="{Candidate_Name}_Tailored_Resume.docx"`.
-* **Features:** Native Word `'List Bullet'` styles, standardized 0.5-inch margins, Arial typography, in-memory stream without disk persistence.
+The tailoring pipeline operates in eight sequential steps:
 
-#### Standard Error Response Envelope
-On failure, all endpoints return the project's standardized error envelope:
+1. **Document Upload:** The candidate selects a `.pdf` or `.docx` resume file. Client validation verifies the size and extension.
+2. **Text Extraction (`POST /api/resume/extract`):** The backend validates file integrity via magic bytes and extracts clean text into RAM using PyMuPDF or python-docx. Scanned image-only PDFs are rejected with guidance.
+3. **Job Description Input:** The candidate pastes the target job description (up to 25,000 characters) into the live character-counting input.
+4. **AI Tailoring (`POST /api/resume/tailor`):** Gemini analyzes both texts to emphasize matching achievements and skills without modifying employment history or inventing unverified facts.
+5. **Review & Gap Analysis:** The candidate views the tailored resume alongside the **Missing Keywords Panel**, highlighting terms mentioned in the job description that were absent from the resume.
+6. **In-Place Section Editing:** The user clicks pencil icons beside Contact, Summary, Experience, Skills, Projects, Education, or Certifications to refine wording, add bullet points, or delete entries.
+7. **Document Generation:** Clicking "Download PDF" or "Download Word (.docx)" calls `/api/resume/export/pdf` or `/api/resume/export/docx`.
+8. **In-Memory Delivery:** The server streams the binary file back with standard headers (`Content-Disposition: attachment`), completing the workflow with zero server-side data retention.
+
+---
+
+<a id="api-reference"></a>
+## 🔌 API Reference
+
+The backend provides a RESTful API with standardized JSON error envelopes. Interactive OpenAPI documentation is available live at:  
+👉 [https://ai-resume-customiser-web-app-production.up.railway.app/docs](https://ai-resume-customiser-web-app-production.up.railway.app/docs)
+
+### Health & Monitoring Endpoints
+
+| Method | Path | Request Body | Response Shape | Purpose |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/` | None | `{"service": "...", "status": "operational"}` | Root service status and documentation links. |
+| `GET` | `/api/health` | None | `{"status": "ok", "gemini_configured": true}` | General health, version, and AI readiness. |
+| `GET` | `/api/health/live` | None | `{"status": "alive"}` | Container liveness probe. |
+| `GET` | `/api/health/ready`| None | `{"status": "ready", "model": "..."}` | Readiness probe verifying model readiness. |
+
+### Resume Processing & Export Endpoints
+
+| Method | Path | Request Format | Response Format | Purpose |
+| :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/api/resume/extract` | `multipart/form-data` (`file`) | `application/json` | Ingests PDF or DOCX file and extracts text. |
+| `POST` | `/api/resume/tailor` | `application/json` (`TailorResumeRequest`) | `application/json` | Generates structured tailored resume & keyword gap analysis. |
+| `POST` | `/api/resume/export/pdf` | `application/json` (`TailoredResumeResponse`) | `application/pdf` | Renders and streams downloadable ATS-compliant PDF. |
+| `POST` | `/api/resume/export/docx`| `application/json` (`TailoredResumeResponse`) | `application/vnd.openxml...` | Renders and streams native Word `.docx` file. |
+
+### Standard Error Response Envelope
+
+All error responses adhere to a consistent contract:
+
 ```json
 {
   "error": {
-    "code": "ERROR_CODE",
-    "message": "User-friendly explanation of the issue.",
+    "code": "SCANNED_PDF_DETECTED",
+    "message": "The uploaded PDF appears to be a scanned image. Please upload a document with selectable text.",
     "details": null
   }
 }
 ```
 
-#### Main Error Cases & HTTP Status Codes
-| HTTP Status | Error Code | Trigger Condition |
-| :--- | :--- | :--- |
-| **400 Bad Request** | `EMPTY_FILE` | Uploaded file is empty (0 bytes) or filename is missing |
-| **400 Bad Request** | `FILE_TYPE_MISMATCH` | Magic bytes do not match extension (e.g. plain text renamed to `.pdf`) |
-| **400 Bad Request** | `CORRUPT_DOCUMENT` | Malformed PDF or damaged ZIP/DOCX package |
-| **400 Bad Request** | `NO_EXTRACTABLE_TEXT` | Blank PDF or DOCX without selectable text |
-| **400 Bad Request** | `SCANNED_PDF_DETECTED` | Image-only/scanned PDF without selectable text (OCR not supported) |
-| **400 Bad Request** | `VALIDATION_ERROR` | Empty/whitespace-only input or payload exceeds character limits |
-| **413 Payload Too Large** | `FILE_TOO_LARGE` | File exceeds configured limit (5 MB) during streaming |
-| **415 Unsupported Media Type** | `UNSUPPORTED_FILE_TYPE` | Extension is not `.pdf` or `.docx` (e.g. `.txt`, `.pages`) |
-| **500 Internal Server Error** | `EXPORT_FAILED` | Internal exception rendering PDF or DOCX binary stream |
-| **503 Service Unavailable** | `CONFIGURATION_ERROR` | Server lacks `GEMINI_API_KEY` when tailoring is requested |
-| **502 Bad Gateway** | `LLM_PROVIDER_ERROR` | Provider API error or communication failure |
-| **502 Bad Gateway** | `LLM_MALFORMED_OUTPUT` | Provider returned invalid or non-JSON output |
-| **502 Bad Gateway** | `LLM_SCHEMA_VALIDATION_ERROR`| Output failed strict Pydantic resume schema validation |
-| **504 Gateway Timeout** | `LLM_TIMEOUT` | Provider generation timed out (configured via `GEMINI_TIMEOUT_SECONDS`) |
+#### Documented Error Codes:
+- `EMPTY_FILE` (400) — Uploaded file is 0 bytes or filename is missing.
+- `FILE_TYPE_MISMATCH` (400) — File content magic bytes do not match extension.
+- `CORRUPT_DOCUMENT` (400) — PDF/DOCX stream cannot be parsed.
+- `NO_EXTRACTABLE_TEXT` (400) — Document contains no selectable text characters.
+- `SCANNED_PDF_DETECTED` (400) — Document is an image-only scan without OCR text.
+- `VALIDATION_ERROR` (400) — Request payload fails schema validation constraints.
+- `FILE_TOO_LARGE` (413) — Document exceeds the configured limit (5 MB).
+- `UNSUPPORTED_FILE_TYPE` (415) — File extension is not `.pdf` or `.docx`.
+- `RATE_LIMIT_EXCEEDED` (429) — Client exceeded per-minute request threshold.
+- `EXPORT_FAILED` (500) — Internal error generating PDF or DOCX stream.
+- `CONFIGURATION_ERROR` (503) — Backend lacks `GEMINI_API_KEY` for tailoring.
+- `LLM_PROVIDER_ERROR` (502) — Google Gemini upstream communication failure.
+- `LLM_TIMEOUT` (504) — Upstream AI generation exceeded configured timeout.
 
 ---
 
-## 5. External AI Processing & Data Privacy Note
+<a id="testing-and-quality-assurance"></a>
+## 🧪 Testing and Quality Assurance
 
-> [!IMPORTANT]
-> **Data Handling & Third-Party Processing:**
-> - Resume text and job descriptions are processed transiently in server memory and are **never saved to disk, cached in a database, or written to server logs**.
-> - When tailoring is invoked (`POST /api/resume/tailor`), the extracted resume text and job description are transmitted securely via the official Google Gen AI Python SDK to **Google's Gemini API** for LLM analysis.
-> - Processing by Gemini is subject to [Google's API Terms of Service](https://ai.google.dev/terms) and applicable privacy commitments.
+Both frontend and backend include automated test suites to verify contract compliance, regression protection, and error handling.
 
----
+### 1. Running Backend Tests (Pytest)
 
-## 6. Backend Setup & Startup (macOS)
-
-### 1. Initialize Virtual Environment & Install Dependencies
 ```bash
 cd backend
-python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pytest -v
 ```
 
-### 2. Start Backend Development Server
-```bash
-# Inside backend/ with venv activated:
-uvicorn app.main:app --reload --port 8000
-```
-Or run directly using the venv python binary:
-```bash
-./.venv/bin/uvicorn app.main:app --reload --port 8000
-```
+**Verified Test Results:** `64 passed in ~4.35s`
 
-* **Health Endpoint:** `http://localhost:8000/api/health`
-* **Extraction Endpoint:** `http://localhost:8000/api/resume/extract`
-* **Tailoring Endpoint:** `http://localhost:8000/api/resume/tailor`
-* **Interactive API Documentation:** `http://localhost:8000/docs`
+- `tests/test_config.py` — Settings instantiation, sanitization, and defaults.
+- `tests/test_export.py` — In-memory PDF (ReportLab) and DOCX generation, headers, and selectable text.
+- `tests/test_health.py` — Health, liveness, readiness probes, and CORS headers.
+- `tests/test_production_security.py` — Rate limiting thresholds, HTTP security headers, and secret-safe logging.
+- `tests/test_resume_extract.py` — File ingestion, magic byte verification, corrupt files, and scanned document detection.
+- `tests/test_schemas.py` — Pydantic contract boundaries, optional fields, and payload constraints.
+- `tests/test_tailor.py` — Gemini client integration, prompt isolation, timeout recovery, and keyword segregation.
 
----
+*Note: The backend test suite uses mocked LLM provider responses, allowing full test execution without incurring Gemini API charges or requiring active internet access.*
 
-## 7. Frontend Setup & Startup
+### 2. Running Frontend Tests & Linting
 
-### 1. Install Dependencies
-```bash
-cd frontend
-npm install
-```
-
-### 2. Start Frontend Development Server
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) to view the application with real-time backend connectivity checks.
-
-### 3. End-to-End User Workflow
-1. **Resume Ingestion:** Drag and drop or browse to select a `.pdf` or `.docx` resume file (up to 5 MB). View filename and formatted size, with one-click remove and replace actions.
-2. **Job Description Input:** Paste the target job description into the auto-counting textarea (supports up to 25,000 characters).
-3. **Validation & Pre-flight Checks:** Client-side checks ensure non-empty inputs and valid file parameters, while treating backend verification as authoritative.
-4. **Sequential Processing:** Clicking **"Tailor My Resume"** triggers:
-   - *Step 1/2:* `POST /api/resume/extract` sends the multipart upload to extract text.
-   - *Step 2/2:* `POST /api/resume/tailor` feeds the extracted text and target job description to Gemini for ATS optimization.
-5. **Results Presentation:**
-   - **ATS Resume View:** Contact info, tailored professional summary, categorized skills, work experience with highlighted impact bullets, projects, education, and certifications.
-   - **Transparent Alignment Score:** Displayed as an approximate content match indicator (not a hiring probability), handling missing/null scores gracefully.
-   - **Missing Keywords Panel:** Visually segregated suggestions with an explicit candidate advisory stating keywords should only be added if the user possesses verifiable experience.
-6. **Iteration & Privacy:** Reset or re-edit job descriptions and resumes seamlessly. No resume or job data is persisted in browser storage (`localStorage`, `sessionStorage`, or cookies).
-
----
-
-## 8. Testing & Quality Verification Commands
-
-### Run Backend Tests (pytest)
-```bash
-cd backend
-./.venv/bin/pytest -v
-```
-The test suite covers:
-1. Valid text-based PDF extraction
-2. Valid DOCX with paragraphs extraction
-3. DOCX containing tables extraction (preserves row/cell structure)
-4. Empty upload (0 bytes)
-5. Unsupported file extensions
-6. File type / content mismatch (magic byte validation)
-7. Upload exceeding configured size limit during streaming
-8. Corrupt PDF documents
-9. Corrupt DOCX documents
-10. Empty DOCX documents without usable text
-11. Blank PDF and scanned/image-only PDFs
-12. Character count accuracy and response schema validation
-13. Standard error envelope structure across all error paths
-14. Health check and CORS functionality
-15. Start-up and config loading without a Gemini API key
-16. Valid resume tailoring request returning structured response
-17. Missing or blank extracted text validation
-18. Missing or blank job description validation
-19. Payload length limit validation
-20. Missing Gemini API key returning clear HTTP 503 `CONFIGURATION_ERROR`
-21. Parsing and Pydantic validation of provider output
-22. Malformed JSON handling from provider
-23. Schema-invalid output handling from provider
-24. Provider timeout handling
-25. Provider API failure handling
-26. Strict segregation of missing keywords from established resume skills
-27. Entity preservation (employers, titles, dates)
-28. Prompt-injection defense and untrusted content isolation
-29. PDF export format, headers, and text verification via PyMuPDF
-30. DOCX export format, headers, and text verification via python-docx
-31. Safe filename sanitization with extension enforcement
-32. Empty and optional sections handling in exports
-33. Strict request validation preventing invalid export payloads
-34. Multi-page document generation without content clipping
-35. Zero persistent disk output verification (strictly in-memory buffers)
-36. Defense-in-depth HTTP security headers (nosniff, DENY, strict-origin, permissions-policy)
-37. Liveness (`/api/health/live`) and readiness (`/api/health/ready`) probe functionality
-38. In-memory sliding window rate limiter logic and threshold blocking
-39. HTTP 429 `RATE_LIMIT_EXCEEDED` and `Retry-After` header enforcement
-40. Sanitized unhandled server exception logging without secret leakage
-
-### Run Frontend Tests, Linting & Production Build
 ```bash
 cd frontend
 
-# Run frontend unit tests (Node native test runner with type stripping - 14 passing tests)
+# Run automated unit test suite (Node test runner with native TypeScript stripping)
 npm test
 
-# Run ESLint check (0 errors, 0 warnings)
+# Run ESLint validation
 npm run lint
 
-# Build production bundle with Next.js Turbopack
+# Validate production build
 npm run build
 ```
-The frontend test suite covers:
-1. File validation for `.pdf` and `.docx` extensions and sizes
-2. Job description input content validation and empty state enforcement
-3. Formatted human-readable file size calculations
-4. `ApiError` structure, status code mapping, and response envelopes
-5. Workflow request sequencing between extraction and tailoring
-6. Contract integrity and strict isolation of missing keywords
-7. Graceful degradation when optional sections are omitted or null
-8. Content-Disposition filename parsing across standard, quoted, and UTF-8 RFC 5987 formats
-9. PDF and DOCX export API request generation and blob handling
-10. Export error recovery and retry flow
-11. Job description exact boundary validation (25,000 characters maximum)
-12. Privacy and security check verifying zero persistent browser storage (`localStorage` / `sessionStorage`)
-13. Rate limit error handling verifying HTTP 429 and `retry_after_seconds` capture
-14. Production health check model with `gemini_configured` readiness flag
+
+**Verified Test Results:**
+- **Unit Tests:** `26 passed, 0 failed` across `tests/workflow.test.ts` and `tests/editing.test.ts`. Covers section editing state updates, file validators, filename parsing, and zero browser storage persistence.
+- **ESLint:** `0 errors, 0 warnings`.
+- **Production Build:** Next.js Turbopack compilation succeeded with all routes prerendered statically.
 
 ---
 
-## 9. Production Deployment & Orchestration
+<a id="deployment"></a>
+## 🌐 Deployment
 
-For comprehensive deployment instructions, hosting trade-offs, and cloud provider walkthroughs, refer to [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+The application is deployed across modern cloud architectures:
 
-### Quick Production Launch with Docker Compose
+- **Frontend (Vercel):** [https://ai-resume-customiser-vishwasweb.vercel.app/](https://ai-resume-customiser-vishwasweb.vercel.app/)  
+  *Edge deployment from the Next.js App Router repository.*
+- **Backend (Railway):** [https://ai-resume-customiser-web-app-production.up.railway.app/](https://ai-resume-customiser-web-app-production.up.railway.app/)  
+  *Containerized FastAPI service with active health probes, ASGI security headers, and sliding-window rate limiting.*
+- **Interactive OpenAPI Documentation:** [https://ai-resume-customiser-web-app-production.up.railway.app/docs](https://ai-resume-customiser-web-app-production.up.railway.app/docs)
+
+### Containerized Deployment (Docker Compose)
+
+You can launch the complete stack locally or on any cloud VPS (AWS, GCP, DigitalOcean, Hetzner) using Docker Compose:
+
 ```bash
-# Export your Gemini API key
-export GEMINI_API_KEY="your_api_key_here"
+# 1. Set your Gemini API key
+export GEMINI_API_KEY="your_actual_gemini_api_key"
 
-# Build and start containerized frontend & backend
+# 2. Build and start containers in detached mode
 docker compose up -d --build
+
+# 3. Verify services
+curl http://localhost:8000/api/health/ready
 ```
 
+For complete instructions covering cloud platforms, environment configuration, and SSL setups, see the [`DEPLOYMENT.md`](./DEPLOYMENT.md) guide.
+
 ---
 
-## 10. Project Roadmap & Status
+<a id="privacy-and-security"></a>
+## 🔒 Privacy and Security
 
-- [x] **Phase 1:** Project Setup, Architecture & Shared Contracts
-- [x] **Phase 2:** Resume Ingestion, Validation & Text Extraction (PyMuPDF & python-docx)
-- [x] **Phase 3:** AI-Powered Resume Tailoring Backend (Google Gemini Gen AI SDK)
-- [x] **Phase 4:** Frontend Resume Tailoring Interactive Workflow (Next.js 16 App Router)
-- [x] **Phase 5:** PDF & DOCX Document Generation & Export Services (ReportLab & python-docx)
-- [x] **Phase 6:** UI Polish, Accessibility, and End-to-End Verification
-- [x] **Phase 7:** Production Readiness and Deployment
+AI Resume Tailor was designed with strict privacy principles:
+
+1. **In-Memory Ephemeral Processing:** Resumes, job descriptions, and generated files exist strictly in server RAM during active requests. No documents are saved to application databases or persistent disk storage.
+2. **Zero Browser Persistence:** The frontend does not persist candidate data or job descriptions in `localStorage`, `sessionStorage`, or tracking cookies. Refreshing or navigating away clears the state.
+3. **Secret-Safe Structured Logging:** Server logging explicitly masks and excludes credentials, authorization tokens, and candidate personally identifiable information (PII).
+4. **Third-Party AI Transmission:** When tailoring is requested, text is transmitted over HTTPS to Google's Gemini API via the official Google Gen AI SDK. Processing is governed by [Google's API Terms of Service](https://ai.google.dev/terms).
+5. **Security Headers & Rate Limiting:** Enforces `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Strict-Transport-Security`, and a sliding-window rate limiter protecting against automated abuse.
+
+---
+
+<a id="limitations"></a>
+## ⚠️ Limitations
+
+- **Supported Document Types:** Only `.pdf` and `.docx` files are accepted. Other formats (`.txt`, `.rtf`, `.pages`) are rejected.
+- **Upload Size Ceiling:** Files are constrained to a default maximum of 5 MB.
+- **No OCR for Scanned Images:** The application does not bundle Optical Character Recognition (Tesseract). Image-only scanned PDFs are rejected to avoid inaccurate text extraction.
+- **AI Service Dependency:** Tailoring requires an active internet connection and a configured Google Gemini API key. Upstream outages or quota limits return graceful HTTP error codes.
+- **Candidate Verification Required:** The ATS alignment score is an approximate textual overlap metric. It does not predict interview callbacks. Candidates must review all tailored content for factual accuracy before submission.
+- **No User Accounts:** The platform does not maintain user login accounts, password storage, or saved resume history.
+
+---
+
+<a id="roadmap"></a>
+## 🗺️ Roadmap
+
+- [x] **Phase 1: Architecture & Foundation:** FastAPI backend, Next.js 16 frontend, Pydantic v2 schemas.
+- [x] **Phase 2: Document Ingestion:** PyMuPDF & python-docx extraction, magic byte validation, scanned document detection.
+- [x] **Phase 3: AI Tailoring Service:** Google Gen AI SDK integration, strict prompt isolation, structured JSON validation.
+- [x] **Phase 4: Missing Keyword Segregation:** Dedicated gap analysis panel with candidate advisories.
+- [x] **Phase 5: Document Exporters:** ReportLab ATS PDF generator and python-docx Word exporter.
+- [x] **Phase 6: Section Editing:** Modal editors for real-time resume adjustments.
+- [x] **Phase 7: Production Hardening:** Rate limiting, security headers, Docker orchestration, Vercel & Railway deployment.
+- [ ] **Planned: Multi-Language Parsing:** Support for non-English resumes and multilingual job postings.
+- [ ] **Planned: Multiple ATS Layout Themes:** Additional clean single-column templates (Modern Minimalist, Executive).
+- [ ] **Planned: OCR Fallback:** Serverless OCR processing for legacy scanned documents.
+- [ ] **Planned: Cover Letter Generator:** Matching tailored cover letter generation based on approved resume content.
+
+---
+
+<a id="contributing"></a>
+## 🤝 Contributing
+
+Contributions, bug reports, and suggestions are welcome! To contribute:
+
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/amazing-feature`.
+3. Commit your changes: `git commit -m 'Add amazing feature'`.
+4. Ensure all tests pass:
+   - Backend: `pytest` in `backend/`
+   - Frontend: `npm test && npm run lint` in `frontend/`
+5. Push to your branch: `git push origin feature/amazing-feature`.
+6. Open a Pull Request describing your changes and verification steps.
+
+---
+
+<a id="license"></a>
+## 📄 License
+
+This repository does not currently include an open-source license file. All rights are reserved by the author. Licensing terms may be updated in future releases.
+
+---
+
+<a id="author"></a>
+## 👨‍💻 Author
+
+**Vishwas Saxena**
+
+- GitHub: [@weber404](https://github.com/weber404)
+- Repository: [AI-Resume-Customiser-Web-App](https://github.com/weber404/AI-Resume-Customiser-Web-App)
+
+---
+
+<div align="center">
+  <sub>Built with care using Next.js, FastAPI, and Google Gemini AI.</sub>
+</div>
