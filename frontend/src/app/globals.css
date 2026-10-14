@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+  --color-brand-bg: #F7F9FC;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-soft-blue: #EEF4FF;
+  --color-brand-soft-lavender: #F2F0FF;
+  --color-brand-text: #172033;
+  --color-brand-muted: #64748B;
+  --color-brand-accent: #4F6BED;
+  --color-brand-accent-hover: #3D56D6;
+  --color-brand-border: #E2E8F0;
+  --color-brand-success: #16845B;
+  --color-brand-error: #C24141;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    background-color: #F7F9FC;
+    color: #172033;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* High-visibility accessibility focus indicator for keyboard navigation */
+  *:focus-visible {
+    outline: 2px solid #4F6BED;
+    outline-offset: 2px;
+  }
+}
+
+/*
+  =============================================================================
+  CONTAINER & MARGIN CONTROLLER
+  Adjust the width and max-width below to increase or decrease left/right margins.
+  Lower width % = LARGER left and right margins.
+  =============================================================================
+*/
+
+/* Mobile screens (<640px): 16px margins on each side */
+.site-container {
+  width: calc(100% - 32px);
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+/* Tablet screens (640px - 1023px): 86% width (7% margins on each side) */
+@media (min-width: 640px) {
+  .site-container {
+    width: 86%;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+}
+
+/* Desktop screens (>=1024px): 
+   - Change '80%' to '75%' for even WIDER margins
+   - Change '80%' to '85%' for narrower margins
+   - Adjust 'max-width: 1360px' to control maximum width on 4K/wide screens
+*/
+@media (min-width: 1024px) {
+  .site-container {
+    width: 85%;
+    max-width: 1680px;
+    margin-inline: auto;
+  }
+}
+
+/* Subtle, cool-toned lavender-blue hero gradient with restrained radial glow */
+.hero-gradient {
+  background:
+    radial-gradient(ellipse 65% 55% at 75% 38%, rgba(218, 230, 255, 0.6), rgba(243, 238, 255, 0.4) 45%, transparent 70%),
+    radial-gradient(ellipse 45% 45% at 20% 25%, rgba(238, 244, 255, 0.75), transparent 60%),
+    linear-gradient(180deg, #F8FAFD 0%, #EEF4FF 35%, #F4F2FF 70%, #F7F9FC 100%);
+}
+
+/* Refined Apple-style box shadows */
+.paper-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 32px -4px rgba(15, 23, 42, 0.08);
+}
+
+.preview-shadow {
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.04), 0 20px 40px -12px rgba(15, 23, 42, 0.1);
+}
+
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 6px 16px -2px rgba(15, 23, 42, 0.04);
+}
+
+.floating-badge-shadow {
+  box-shadow: 0 4px 16px -2px rgba(79, 107, 237, 0.14), 0 2px 6px -1px rgba(15, 23, 42, 0.05);
+}
+
+/* Hide Next.js Development Indicator (floating N logo) */
+nextjs-portal,
+[data-nextjs-dev-tools],
+[data-nextjs-indicator],
+[data-nextjs-toast] {
+  display: none !important;
+}
