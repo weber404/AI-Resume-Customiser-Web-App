@@ -48,6 +48,7 @@ A full-stack web application designed to tailor resumes to specific job descript
 
 - [Overview](#overview)
 - [Key Features](#key-features)
+- [Bonus Features](#bonus-features)
 - [Screenshots / Product Preview](#screenshots--product-preview)
 - [Tech Stack](#tech-stack)
 - [Architecture](#architecture)
@@ -101,6 +102,14 @@ Automated resume tools frequently hallucinate synthetic skills, fabricate unveri
   - **DOCX Export:** Formatted OpenXML document styled with native bullet lists and standardized 0.5-inch margins.
 - **🔒 Ephemeral Processing:** Documents and job descriptions are processed in memory and are not persisted to application databases or local disk storage.
 - **⚡ Defense-in-Depth Security:** Enforces strict HTTP security headers (`nosniff`, `DENY`, `strict-origin`), sliding-window rate limiting, and input size constraints.
+
+---
+
+<a id="bonus-features"></a>
+## 🎁 Bonus Features
+
+- [ ] **Match Score** — Show a % match between the original resume and JD
+- [ ] **Section-wise customization** — Let users choose which sections to customize (Summary, Skills, Experience, etc.)
 
 ---
 
