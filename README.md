@@ -581,10 +581,6 @@ AI Resume Tailor was designed with strict privacy principles:
 - [x] **Phase 5: Document Exporters:** ReportLab ATS PDF generator and python-docx Word exporter.
 - [x] **Phase 6: Section Editing:** Modal editors for real-time resume adjustments.
 - [x] **Phase 7: Production Hardening:** Rate limiting, security headers, Docker orchestration, Vercel & Railway deployment.
-- [ ] **Planned: Multi-Language Parsing:** Support for non-English resumes and multilingual job postings.
-- [ ] **Planned: Multiple ATS Layout Themes:** Additional clean single-column templates (Modern Minimalist, Executive).
-- [ ] **Planned: OCR Fallback:** Serverless OCR processing for legacy scanned documents.
-- [ ] **Planned: Cover Letter Generator:** Matching tailored cover letter generation based on approved resume content.
 
 ---
 
